@@ -59,8 +59,8 @@ export const CallForm: React.FC<CallFormProps> = ({ onCallCreated }) => {
     <div style={{ marginBottom: '2rem', padding: '1rem', border: '1px solid #ccc', borderRadius: '8px' }}>
       <h2>📞 Make Call</h2>
       <form onSubmit={handleSubmit}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
-          <div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem', marginBottom: '1.5rem' }}>
+          <div style={{ padding: '1rem', backgroundColor: '#f8f9fa', borderRadius: '8px', border: '1px solid #e9ecef' }}>
             <label htmlFor="phoneNumber" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
               📱 Phone Number (E.164 format) *
             </label>
@@ -75,14 +75,18 @@ export const CallForm: React.FC<CallFormProps> = ({ onCallCreated }) => {
                 padding: '0.5rem',
                 border: '1px solid #ccc',
                 borderRadius: '4px',
-                fontSize: '1rem'
+                fontSize: '1rem',
+                boxSizing: 'border-box'
               }}
               disabled={isLoading}
               required
             />
+            <small style={{ color: '#666', fontSize: '0.8rem', fontStyle: 'italic', display: 'block', marginTop: '0.5rem' }}>
+              Required field for making the call
+            </small>
           </div>
 
-          <div>
+          <div style={{ padding: '1rem', backgroundColor: '#f8f9fa', borderRadius: '8px', border: '1px solid #e9ecef' }}>
             <label htmlFor="customerName" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
               👤 Customer Name (Optional)
             </label>
@@ -97,16 +101,17 @@ export const CallForm: React.FC<CallFormProps> = ({ onCallCreated }) => {
                 padding: '0.5rem',
                 border: '1px solid #ccc',
                 borderRadius: '4px',
-                fontSize: '1rem'
+                fontSize: '1rem',
+                boxSizing: 'border-box'
               }}
               disabled={isLoading}
             />
-            <small style={{ color: '#666', fontSize: '0.8rem' }}>
+            <small style={{ color: '#666', fontSize: '0.8rem', fontStyle: 'italic', display: 'block', marginTop: '0.5rem' }}>
               Agent will use: "Hello {'{{customer_name}}'}"
             </small>
           </div>
 
-          <div>
+          <div style={{ padding: '1rem', backgroundColor: '#f8f9fa', borderRadius: '8px', border: '1px solid #e9ecef' }}>
             <label htmlFor="appointmentDate" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
               📅 Appointment Date (Optional)
             </label>
@@ -121,11 +126,12 @@ export const CallForm: React.FC<CallFormProps> = ({ onCallCreated }) => {
                 padding: '0.5rem',
                 border: '1px solid #ccc',
                 borderRadius: '4px',
-                fontSize: '1rem'
+                fontSize: '1rem',
+                boxSizing: 'border-box'
               }}
               disabled={isLoading}
             />
-            <small style={{ color: '#666', fontSize: '0.8rem' }}>
+            <small style={{ color: '#666', fontSize: '0.8rem', fontStyle: 'italic', display: 'block', marginTop: '0.5rem' }}>
               Agent will use: "Your appointment on {'{{appointment_date}}'}"
             </small>
           </div>
