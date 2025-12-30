@@ -40,7 +40,7 @@ export const CallForm: React.FC<CallFormProps> = ({ onCallCreated }) => {
     try {
       // Prepare dynamic variables (always include today's date)
       const dynamicVariables: Record<string, string> = {
-        today_date: appointmentDate.trim() || new Date().toLocaleDateString('en-US', { 
+        date: appointmentDate.trim() || new Date().toLocaleDateString('en-US', { 
           year: 'numeric', 
           month: 'long', 
           day: 'numeric' 
@@ -145,7 +145,7 @@ export const CallForm: React.FC<CallFormProps> = ({ onCallCreated }) => {
               disabled={isLoading}
             />
             <small style={{ color: '#666', fontSize: '0.8rem', fontStyle: 'italic', display: 'block', marginTop: '0.5rem' }}>
-              Helps agent understand current date context
+              Provides agent with current date context as {'{{date}}'}
             </small>
           </div>
         </div>
