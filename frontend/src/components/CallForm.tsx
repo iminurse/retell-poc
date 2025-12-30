@@ -8,7 +8,15 @@ interface CallFormProps {
 export const CallForm: React.FC<CallFormProps> = ({ onCallCreated }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [customerName, setCustomerName] = useState('');
-  const [appointmentDate, setAppointmentDate] = useState('');
+  const [appointmentDate, setAppointmentDate] = useState(() => {
+    // Set default to current date
+    const today = new Date();
+    return today.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -36,7 +44,7 @@ export const CallForm: React.FC<CallFormProps> = ({ onCallCreated }) => {
         dynamicVariables.customer_name = customerName.trim();
       }
       if (appointmentDate.trim()) {
-        dynamicVariables.appointment_date = appointmentDate.trim();
+        dynamicVariables.today_date = appointmentDate.trim();  // Use today_date for context
       }
 
       const response = await retellApi.createCall({ 
@@ -47,7 +55,7 @@ export const CallForm: React.FC<CallFormProps> = ({ onCallCreated }) => {
       onCallCreated(response.call_id);
       setPhoneNumber('');
       setCustomerName('');
-      setAppointmentDate('');
+      // Keep today's date as default, don't clear it
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create call');
     } finally {
@@ -88,7 +96,7 @@ export const CallForm: React.FC<CallFormProps> = ({ onCallCreated }) => {
 
           <div style={{ padding: '1rem', backgroundColor: '#f8f9fa', borderRadius: '8px', border: '1px solid #e9ecef' }}>
             <label htmlFor="customerName" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-              👤 Customer Name (Optional)
+              👤 Customer Name
             </label>
             <input
               id="customerName"
@@ -113,14 +121,14 @@ export const CallForm: React.FC<CallFormProps> = ({ onCallCreated }) => {
 
           <div style={{ padding: '1rem', backgroundColor: '#f8f9fa', borderRadius: '8px', border: '1px solid #e9ecef' }}>
             <label htmlFor="appointmentDate" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-              📅 Appointment Date (Optional)
+              📅 Today's Date
             </label>
             <input
               id="appointmentDate"
               type="text"
               value={appointmentDate}
               onChange={(e) => setAppointmentDate(e.target.value)}
-              placeholder="Monday 2pm"
+              placeholder="December 30, 2024"
               style={{
                 width: '100%',
                 padding: '0.5rem',
@@ -132,7 +140,7 @@ export const CallForm: React.FC<CallFormProps> = ({ onCallCreated }) => {
               disabled={isLoading}
             />
             <small style={{ color: '#666', fontSize: '0.8rem', fontStyle: 'italic', display: 'block', marginTop: '0.5rem' }}>
-              Agent will use: "Your appointment on {'{{appointment_date}}'}"
+              Helps agent understand current date context
             </small>
           </div>
         </div>
