@@ -92,8 +92,16 @@ export const CallAnalysis: React.FC<CallAnalysisProps> = ({ callId }) => {
   };
 
   const formatTimestamp = (timestamp?: number) => {
-    if (!timestamp) return 'N/A';
-    return new Date(timestamp).toLocaleString();
+    // Handle various timestamp formats and edge cases
+    if (!timestamp || timestamp === 0) return 'N/A';
+    
+    // Handle both milliseconds and seconds timestamps
+    const date = timestamp > 1000000000000 ? new Date(timestamp) : new Date(timestamp * 1000);
+    
+    // Check if date is valid
+    if (isNaN(date.getTime())) return 'N/A';
+    
+    return date.toLocaleString();
   };
 
   const formatCost = (cost?: number) => {
@@ -124,8 +132,12 @@ export const CallAnalysis: React.FC<CallAnalysisProps> = ({ callId }) => {
 
         <div style={{ padding: '1rem', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
           <h4 style={{ margin: '0 0 0.5rem 0', color: '#333' }}>Timestamps</h4>
-          <p><strong>Started:</strong> {formatTimestamp(callStatus!.start_timestamp)}</p>
-          <p><strong>Ended:</strong> {formatTimestamp(callStatus!.end_timestamp)}</p>
+          <p><strong>Started:</strong> {formatTimestamp(callStatus!.start_timestamp) !== 'N/A' 
+            ? formatTimestamp(callStatus!.start_timestamp) 
+            : (callStatus!.created_at ? new Date(callStatus!.created_at).toLocaleString() : 'N/A')}</p>
+          <p><strong>Ended:</strong> {formatTimestamp(callStatus!.end_timestamp) !== 'N/A' 
+            ? formatTimestamp(callStatus!.end_timestamp) 
+            : (callStatus!.ended_at ? new Date(callStatus!.ended_at).toLocaleString() : 'N/A')}</p>
         </div>
 
         {callStatus!.call_cost && (
@@ -390,6 +402,16 @@ export const CallAnalysis: React.FC<CallAnalysisProps> = ({ callId }) => {
   const renderRawData = () => (
     <div>
       <h4>Raw Call Data</h4>
+      
+      {/* Debug section for timestamps */}
+      <div style={{ marginBottom: '1rem', padding: '0.5rem', backgroundColor: '#fff3cd', borderRadius: '4px' }}>
+        <h5>🔍 Debug Info:</h5>
+        <p><strong>start_timestamp:</strong> {JSON.stringify(callStatus?.start_timestamp)} (type: {typeof callStatus?.start_timestamp})</p>
+        <p><strong>end_timestamp:</strong> {JSON.stringify(callStatus?.end_timestamp)} (type: {typeof callStatus?.end_timestamp})</p>
+        <p><strong>created_at:</strong> {JSON.stringify(callStatus?.created_at)}</p>
+        <p><strong>ended_at:</strong> {JSON.stringify(callStatus?.ended_at)}</p>
+      </div>
+      
       <pre style={{
         padding: '1rem',
         backgroundColor: '#f8f9fa',
