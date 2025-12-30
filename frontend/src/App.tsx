@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { CallForm } from './components/CallForm';
 import { CallAnalysis } from './components/CallAnalysis';
 import { CallHistory } from './components/CallHistory';
