@@ -51,7 +51,6 @@ RETELL_FROM_NUMBER=+1234567890
 RETELL_AGENT_ID=your_agent_id_here
 RETELL_BASE_URL=https://api.retellai.com
 RETELL_WEBHOOK_VERIFY_KEY=your_api_key_here
-TODAY_DATE=19 December 2025
 ```
 
 ### Vercel (Frontend):

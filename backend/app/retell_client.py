@@ -22,10 +22,7 @@ class RetellClient:
             "from_number": settings.RETELL_FROM_NUMBER,
             "to_number": to_number,
             "override_agent_id": settings.RETELL_AGENT_ID,
-            "retell_llm_dynamic_variables": {
-                "today_date": settings.TODAY_DATE,
-                **(dynamic_variables or {})  # Merge custom dynamic variables
-            }
+            "retell_llm_dynamic_variables": dynamic_variables or {}
         }
         
         logger.info(f"Creating phone call to {to_number} with dynamic variables: {payload['retell_llm_dynamic_variables']}")

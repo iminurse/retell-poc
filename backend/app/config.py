@@ -9,6 +9,5 @@ class Settings:
     RETELL_AGENT_ID: str = os.getenv("RETELL_AGENT_ID", "")
     RETELL_BASE_URL: str = os.getenv("RETELL_BASE_URL", "https://api.retellai.com")
     RETELL_WEBHOOK_VERIFY_KEY: str = os.getenv("RETELL_WEBHOOK_VERIFY_KEY", "")
-    TODAY_DATE: str = os.getenv("TODAY_DATE", "19 December 2025")
 
 settings = Settings()

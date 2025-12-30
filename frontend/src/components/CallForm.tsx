@@ -38,18 +38,23 @@ export const CallForm: React.FC<CallFormProps> = ({ onCallCreated }) => {
     setError(null);
 
     try {
-      // Prepare dynamic variables (only include non-empty values)
-      const dynamicVariables: Record<string, string> = {};
+      // Prepare dynamic variables (always include today's date)
+      const dynamicVariables: Record<string, string> = {
+        today_date: appointmentDate.trim() || new Date().toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        })
+      };
+      
+      // Add customer name if provided
       if (customerName.trim()) {
-        dynamicVariables.name = customerName.trim();  // Use 'name' to match agent prompt
-      }
-      if (appointmentDate.trim()) {
-        dynamicVariables.today_date = appointmentDate.trim();  // Use today_date for context
+        dynamicVariables.name = customerName.trim();
       }
 
       const response = await retellApi.createCall({ 
         to_number: phoneNumber,
-        dynamic_variables: Object.keys(dynamicVariables).length > 0 ? dynamicVariables : undefined
+        dynamic_variables: dynamicVariables  // Always send dynamic variables
       });
       
       onCallCreated(response.call_id);

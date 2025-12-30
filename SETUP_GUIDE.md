@@ -72,7 +72,6 @@ cd retell-poc
    RETELL_AGENT_ID=your_actual_agent_id_here
    RETELL_BASE_URL=https://api.retellai.com
    RETELL_WEBHOOK_VERIFY_KEY=your_actual_api_key_here
-   TODAY_DATE=19 December 2025
    ```
 
 6. **Test the backend configuration:**
