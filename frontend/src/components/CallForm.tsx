@@ -41,7 +41,7 @@ export const CallForm: React.FC<CallFormProps> = ({ onCallCreated }) => {
       // Prepare dynamic variables (only include non-empty values)
       const dynamicVariables: Record<string, string> = {};
       if (customerName.trim()) {
-        dynamicVariables.customer_name = customerName.trim();
+        dynamicVariables.name = customerName.trim();  // Use 'name' to match agent prompt
       }
       if (appointmentDate.trim()) {
         dynamicVariables.today_date = appointmentDate.trim();  // Use today_date for context
@@ -115,7 +115,7 @@ export const CallForm: React.FC<CallFormProps> = ({ onCallCreated }) => {
               disabled={isLoading}
             />
             <small style={{ color: '#666', fontSize: '0.8rem', fontStyle: 'italic', display: 'block', marginTop: '0.5rem' }}>
-              Agent will use: "Hello {'{{customer_name}}'}"
+              Agent will use: "Hello {'{{name}}'}"
             </small>
           </div>
 

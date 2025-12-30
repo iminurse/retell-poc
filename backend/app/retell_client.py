@@ -28,7 +28,8 @@ class RetellClient:
             }
         }
         
-        logger.info(f"Creating phone call to {to_number} with payload: {payload}")
+        logger.info(f"Creating phone call to {to_number} with dynamic variables: {payload['retell_llm_dynamic_variables']}")
+        logger.info(f"Full payload: {payload}")
         
         try:
             async with httpx.AsyncClient(timeout=30.0) as client:
