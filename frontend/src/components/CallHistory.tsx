@@ -43,6 +43,14 @@ export const CallHistory: React.FC<CallHistoryProps> = ({ currentCallId, onCallS
     }
   };
 
+  const formatDateTime = (timestamp?: number) => {
+    if (!timestamp) return 'N/A';
+    const date = new Date(timestamp);
+    const dateStr = date.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' });
+    const timeStr = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+    return `${dateStr} ${timeStr}`;
+  };
+
   useEffect(() => {
     loadCalls();
   }, []);
@@ -106,7 +114,7 @@ export const CallHistory: React.FC<CallHistoryProps> = ({ currentCallId, onCallS
             <option value="">Select a call...</option>
             {calls.map((call) => (
               <option key={call.call_id} value={call.call_id}>
-                🆔 {call.call_id.slice(-8).padEnd(8, ' ')} | 📞 {call.direction === 'inbound' ? call.from_number : call.to_number}
+                🆔 {call.call_id.slice(-8).padEnd(8, ' ')} | 📞 {(call.direction === 'inbound' ? call.from_number : call.to_number).padEnd(15, ' ')} | 📅 {formatDateTime(call.start_timestamp || call.end_timestamp)}
               </option>
             ))}
           </select>
