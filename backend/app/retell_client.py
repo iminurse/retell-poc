@@ -16,14 +16,15 @@ class RetellClient:
             "Content-Type": "application/json"
         }
     
-    async def create_phone_call(self, to_number: str) -> Dict[str, Any]:
+    async def create_phone_call(self, to_number: str, dynamic_variables: Optional[Dict[str, str]] = None) -> Dict[str, Any]:
         """Create an outbound phone call using Retell API"""
         payload = {
             "from_number": settings.RETELL_FROM_NUMBER,
             "to_number": to_number,
             "override_agent_id": settings.RETELL_AGENT_ID,
             "retell_llm_dynamic_variables": {
-                "today_date": settings.TODAY_DATE
+                "today_date": settings.TODAY_DATE,
+                **(dynamic_variables or {})  # Merge custom dynamic variables
             }
         }
         

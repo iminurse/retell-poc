@@ -1,5 +1,6 @@
 export interface CreateCallRequest {
   to_number: string;
+  dynamic_variables?: Record<string, string>;
 }
 
 export interface CreateCallResponse {

@@ -61,8 +61,11 @@ async def list_calls():
 async def create_call(request: CreateCallRequest):
     """Create an outbound phone call"""
     try:
-        # Call Retell API to create phone call
-        call_data = await retell_client.create_phone_call(request.to_number)
+        # Call Retell API to create phone call with dynamic variables
+        call_data = await retell_client.create_phone_call(
+            request.to_number, 
+            request.dynamic_variables
+        )
         call_id = call_data.get("call_id")
         
         if not call_id:
@@ -73,6 +76,7 @@ async def create_call(request: CreateCallRequest):
             "call_id": call_id,
             "call_status": "created",
             "to_number": request.to_number,
+            "dynamic_variables": request.dynamic_variables,
             "retell_data": call_data
         })
         

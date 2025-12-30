@@ -4,6 +4,7 @@ from datetime import datetime
 
 class CreateCallRequest(BaseModel):
     to_number: str
+    dynamic_variables: Optional[Dict[str, str]] = None  # Add dynamic variables support
 
 class CreateCallResponse(BaseModel):
     call_id: str
