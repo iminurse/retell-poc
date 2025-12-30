@@ -102,7 +102,7 @@ export const CallForm: React.FC<CallFormProps> = ({ onCallCreated }) => {
               disabled={isLoading}
             />
             <small style={{ color: '#666', fontSize: '0.8rem' }}>
-              Agent will use: "Hello {{customer_name}}"
+              Agent will use: "Hello {'{{customer_name}}'}"
             </small>
           </div>
 
@@ -126,7 +126,7 @@ export const CallForm: React.FC<CallFormProps> = ({ onCallCreated }) => {
               disabled={isLoading}
             />
             <small style={{ color: '#666', fontSize: '0.8rem' }}>
-              Agent will use: "Your appointment on {{appointment_date}}"
+              Agent will use: "Your appointment on {'{{appointment_date}}'}"
             </small>
           </div>
         </div>
