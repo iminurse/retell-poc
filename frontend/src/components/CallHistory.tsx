@@ -105,7 +105,7 @@ export const CallHistory: React.FC<CallHistoryProps> = ({ currentCallId, onCallS
             <option value="">Select a call...</option>
             {calls.map((call) => (
               <option key={call.call_id} value={call.call_id}>
-                {call.call_id.slice(-8)} | {call.direction === 'inbound' ? call.from_number : call.to_number}
+                🆔 {call.call_id.slice(-8)} | 📞 {call.direction === 'inbound' ? call.from_number : call.to_number}
               </option>
             ))}
           </select>
