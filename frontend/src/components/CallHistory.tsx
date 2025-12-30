@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { retellApi } from '../api/retell';
 
 interface CallHistoryItem {
@@ -46,48 +46,6 @@ export const CallHistory: React.FC<CallHistoryProps> = ({ currentCallId, onCallS
   useEffect(() => {
     loadCalls();
   }, []);
-
-  const formatTimestamp = (timestamp?: number) => {
-    if (!timestamp) return 'N/A';
-    return new Date(timestamp).toLocaleString();
-  };
-
-  const formatDuration = (durationMs?: number) => {
-    if (!durationMs) return 'N/A';
-    const seconds = Math.floor(durationMs / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'created': return '#ffa500';
-      case 'registered': return '#17a2b8';
-      case 'ongoing': return '#007bff';
-      case 'ended': return '#28a745';
-      default: return '#6c757d';
-    }
-  };
-
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'created': return '📞';
-      case 'registered': return '🔄';
-      case 'ongoing': return '📱';
-      case 'ended': return '✅';
-      default: return '❓';
-    }
-  };
-
-  const formatCost = (cost?: number) => {
-    if (cost === undefined || cost === null) return '';
-    return ` | $${(cost / 100).toFixed(4)}`;
-  };
-
-  const getDirectionIcon = (direction: string) => {
-    return direction === 'inbound' ? '📞' : '📱';
-  };
 
   return (
     <div style={{ marginBottom: '1rem', padding: '1rem', border: '1px solid #ccc', borderRadius: '8px' }}>
@@ -147,85 +105,10 @@ export const CallHistory: React.FC<CallHistoryProps> = ({ currentCallId, onCallS
             <option value="">Select a call...</option>
             {calls.map((call) => (
               <option key={call.call_id} value={call.call_id}>
-                {getDirectionIcon(call.direction)} {call.call_id.slice(-8)} | 
-                {call.direction === 'inbound' ? `From: ${call.from_number}` : `To: ${call.to_number}`} | 
-                {formatTimestamp(call.start_timestamp || call.end_timestamp)} | 
-                {call.call_status} | 
-                {formatDuration(call.duration_ms)}
-                {call.has_analysis ? ' | 📊' : ''}
-                {call.has_recording ? ' | 🎵' : ''}
-                {formatCost(call.call_cost)}
+                {call.call_id.slice(-8)} | {call.direction === 'inbound' ? call.from_number : call.to_number}
               </option>
             ))}
           </select>
-
-          {calls.length > 0 && (
-            <div style={{ marginTop: '1rem' }}>
-              <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '1rem' }}>Recent Calls Summary:</h4>
-              <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
-                {calls.slice(0, 10).map((call) => (
-                  <div
-                    key={call.call_id}
-                    onClick={() => onCallSelect(call.call_id)}
-                    style={{
-                      padding: '0.75rem',
-                      margin: '0.25rem 0',
-                      backgroundColor: call.call_id === currentCallId ? '#e3f2fd' : '#f8f9fa',
-                      border: call.call_id === currentCallId ? '2px solid #007bff' : '1px solid #dee2e6',
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                      fontSize: '0.9rem'
-                    }}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                      <div style={{ flex: 1 }}>
-                        <div style={{ fontWeight: 'bold', marginBottom: '0.25rem' }}>
-                          {getDirectionIcon(call.direction)} {getStatusIcon(call.call_status)} {call.call_id.slice(-8)}
-                          <span style={{ marginLeft: '0.5rem', fontWeight: 'normal', color: '#666' }}>
-                            {call.agent_name || 'Unknown Agent'}
-                          </span>
-                        </div>
-                        <div style={{ color: '#666', fontSize: '0.8rem' }}>
-                          {call.direction === 'inbound' ? (
-                            <>📞 From: {call.from_number} → {call.to_number}</>
-                          ) : (
-                            <>📱 To: {call.to_number}</>
-                          )}
-                        </div>
-                        <div style={{ color: '#666', fontSize: '0.8rem', marginTop: '0.25rem' }}>
-                          🕒 {formatTimestamp(call.start_timestamp || call.end_timestamp)}
-                        </div>
-                        {call.disconnection_reason && (
-                          <div style={{ color: '#666', fontSize: '0.8rem', marginTop: '0.25rem' }}>
-                            📋 {call.disconnection_reason}
-                          </div>
-                        )}
-                      </div>
-                      <div style={{ textAlign: 'right', fontSize: '0.8rem' }}>
-                        <div style={{ color: getStatusColor(call.call_status), fontWeight: 'bold', marginBottom: '0.25rem' }}>
-                          {call.call_status.toUpperCase()}
-                        </div>
-                        {call.duration_ms && (
-                          <div style={{ color: '#666' }}>
-                            ⏱️ {formatDuration(call.duration_ms)}
-                          </div>
-                        )}
-                        <div style={{ marginTop: '0.25rem' }}>
-                          {call.has_analysis && <span title="Has Analysis">📊 </span>}
-                          {call.has_recording && <span title="Has Recording">🎵 </span>}
-                          {call.call_cost && (
-                            <div style={{ color: '#666', fontSize: '0.7rem' }}>
-                              💰 ${(call.call_cost / 100).toFixed(4)}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       )}
     </div>
