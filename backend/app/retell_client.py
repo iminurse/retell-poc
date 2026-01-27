@@ -22,6 +22,7 @@ class RetellClient:
             "from_number": settings.RETELL_FROM_NUMBER,
             "to_number": to_number,
             "override_agent_id": settings.RETELL_AGENT_ID,
+            "language": "multi",  # Enable multilingual support
             "retell_llm_dynamic_variables": dynamic_variables or {}
         }
         
